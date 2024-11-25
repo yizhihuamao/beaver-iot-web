@@ -31,3 +31,29 @@
         margin: 0;
     }
 }
+
+// ---------- InputBase ----------
+// 去除浏览器的默认填充样式
+input.@{mui-prefix}InputBase-input {
+    &:focus {
+        box-shadow: 0 0 0 1000px var(--main-background) inset;
+    }
+
+    &:-webkit-autofill {
+        border-radius: unset;
+        box-shadow: 0 0 0 1000px var(--main-background) inset;
+        -webkit-text-fill-color: var(--text-color-base);
+    }
+}
+
+[data-theme='dark'] input.@{mui-prefix}InputBase-input {
+    &:focus {
+        box-shadow: 0 0 0 1000px #2b2b2b inset;
+    }
+
+    &:-webkit-autofill {
+        border-radius: unset;
+        box-shadow: 0 0 0 1000px #2b2b2b inset;
+        -webkit-text-fill-color: var(--text-color-base);
+    }
+}
