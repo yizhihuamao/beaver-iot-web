@@ -6,6 +6,7 @@ import {
     yellow as MYellow,
     deepOrange as MDeepOrange,
 } from '@mui/material/colors';
+import { merge } from 'lodash-es';
 import type { PaletteMode, ColorSystemOptions, CssVarsThemeOptions } from '@mui/material/styles';
 import iotStorage from '../utils/storage';
 
@@ -113,7 +114,7 @@ const isDarkMode = ((): boolean => {
 /** 系统主题 */
 export const SYSTEM_THEME: ThemeType = isDarkMode ? 'dark' : 'light';
 /** 应用默认主题 */
-export const DEFAULT_THEME: ThemeType = 'light';
+export const DEFAULT_THEME: ThemeType = 'dark';
 
 /**
  * 初始化系统主题
@@ -267,6 +268,18 @@ export const getMuiSchemes = () => {
 };
 
 /**
+ * 暗色主题配置
+ */
+const getThemes = (): Record<ThemeType, any> => {
+    const light = {};
+    const dark = {};
+    return {
+        light,
+        dark,
+    };
+};
+
+/**
  * 获取 MUI 组件主题配置
  * @param mode 主题类型
  * @link https://mui.com/material-ui/customization/theme-components/
@@ -313,6 +326,12 @@ export const getMuiComponents = (mode: ThemeType = 'light') => {
                 margin: 'dense',
             },
         },
+        MuiOutlinedInput: {
+            defaultProps: {
+                size: 'small',
+                margin: 'dense',
+            },
+        },
         MuiInputLabel: {
             defaultProps: {
                 shrink: true,
@@ -351,7 +370,10 @@ export const getMuiComponents = (mode: ThemeType = 'light') => {
         },
     };
 
-    return result;
+    const theme = getThemes()[mode];
+    const resultTheme = merge({}, result, theme);
+
+    return resultTheme;
 };
 
 /**

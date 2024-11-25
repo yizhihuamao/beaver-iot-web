@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Grid } from '@mui/material';
 import { WidgetDetail } from '@/services/http/dashboard';
 import pluginImg from '@/assets/plugin.png';

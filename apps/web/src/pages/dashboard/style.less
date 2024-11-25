@@ -46,6 +46,7 @@
         height: 100%;
         padding: 24px 20px 0 0;
         line-height: 1;
+        background: var(--component-background);
         border-bottom: 1px solid var(--border-color-base);
         cursor: pointer;
 
@@ -83,7 +84,7 @@
             width: 100%;
             overflow: hidden;
             overflow-y: auto;
-            background: var(--gray-color-2);
+            // background: var(--gray-color-2);
 
             .drag {
                 position: relative;
@@ -150,6 +151,10 @@
                     &:hover {
                         background: var(--gray-color-3);
                     }
+                }
+
+                &-dark &-img {
+                    color: var(--white);
                 }
             }
 
