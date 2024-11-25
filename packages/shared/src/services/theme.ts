@@ -128,7 +128,7 @@ const isDarkMode = ((): boolean => {
 /** 系统主题 */
 export const SYSTEM_THEME: ThemeType = isDarkMode ? 'dark' : 'light';
 /** 应用默认主题 */
-export const DEFAULT_THEME: ThemeType = 'dark';
+export const DEFAULT_THEME: ThemeType = 'light';
 
 /**
  * 初始化系统主题
