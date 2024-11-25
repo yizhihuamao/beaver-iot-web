@@ -89,6 +89,20 @@ export const deepOrange = {
     900: '#AB3813',
 } as const;
 
+/** 主题色 - 紫 */
+export const purple = {
+    50: '#F5F2FF',
+    100: '#EAE3FD',
+    200: '#DDD2FC',
+    300: '#CBBBFA',
+    400: '#B49CFA',
+    500: '#A385F8',
+    600: '#8E66FF',
+    700: '#7B4EFA',
+    800: '#633FC8',
+    900: '#462C8E',
+} as const;
+
 /** 主题色 - 灰 */
 export const grey = {
     ...MGrey,
@@ -157,9 +171,9 @@ export const getMuiSchemes = () => {
     const lightPalette: ColorSystemOptions['palette'] = {
         grey,
         primary: {
-            main: blue[700],
-            light: blue[600],
-            dark: blue[800],
+            main: purple[700],
+            light: purple[600],
+            dark: purple[800],
         },
         secondary: {
             main: '#1261BE',
@@ -180,9 +194,9 @@ export const getMuiSchemes = () => {
             contrastText: white,
         },
         info: {
-            main: blue[700],
-            light: blue[600],
-            dark: blue[800],
+            main: purple[700],
+            light: purple[600],
+            dark: purple[800],
             contrastText: white,
         },
         success: {
@@ -212,9 +226,9 @@ export const getMuiSchemes = () => {
     const darkPalette: ColorSystemOptions['palette'] = {
         grey,
         primary: {
-            main: blue[600],
-            light: blue[700],
-            dark: blue[500],
+            main: purple[600],
+            light: purple[700],
+            dark: purple[500],
             contrastText: grey[50],
         },
         secondary: {
@@ -236,9 +250,9 @@ export const getMuiSchemes = () => {
             contrastText: grey[50],
         },
         info: {
-            main: blue[600],
-            light: blue[700],
-            dark: blue[500],
+            main: purple[600],
+            light: purple[700],
+            dark: purple[500],
             contrastText: grey[50],
         },
         success: {
