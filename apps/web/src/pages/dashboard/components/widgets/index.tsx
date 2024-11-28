@@ -99,13 +99,13 @@ const Widgets = (props: WidgetProps) => {
                 const id = (data.widget_id || data.tempId) as ApiKey;
                 const pos = {
                     ...data.data.pos,
-                    w: data.data?.pos?.w || data.data.minCol,
-                    h: data.data?.pos?.h || data.data.minRow,
+                    w: data.data?.pos?.w || data.data.minCol || 3,
+                    h: data.data?.pos?.h || data.data.minRow || 2,
                     minW: data.data.minCol || 3,
                     minH: data.data.minRow || 2,
                     i: data?.widget_id || data.data.tempId,
-                    x: data.data.pos.x || 0,
-                    y: data.data.pos.y || 0,
+                    x: data.data.pos?.x || 0,
+                    y: data.data.pos?.y || 0,
                 };
                 return (
                     <div

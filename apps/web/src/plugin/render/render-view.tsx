@@ -1,5 +1,6 @@
 import { isString } from 'lodash-es';
 import * as Icons from '@milesight/shared/src/components/icons';
+import { useTheme } from '@milesight/shared/src/hooks';
 import * as PluginView from '../view-components';
 import { parseStyleToReactStyle, parseStyleString, convertCssToReactStyle } from './util';
 import './style.less';
@@ -12,6 +13,7 @@ interface Props {
 
 const View = (props: Props) => {
     const { config, configJson, onClick } = props;
+    const { theme: globalTheme } = useTheme();
 
     // 处理显示依赖
     const isShow = (depended?: Record<string, any>) => {
@@ -40,7 +42,8 @@ const View = (props: Props) => {
     const renderTag = (tagProps: ViewProps, tabKey: string) => {
         if (isShow(tagProps?.showDepended) && tagProps?.tag) {
             const Tag: any = (PluginView as any)[tagProps?.tag] || tagProps?.tag;
-            const theme = tagProps?.themes?.default;
+            const theme =
+                tagProps?.themes?.[`${globalTheme === 'light' ? 'default' : globalTheme}`] || {};
             const style = `${tagProps?.style || ''}${theme?.style}`;
             const dependStyle: Record<string, string> = {};
             if (tagProps?.styleDepended) {

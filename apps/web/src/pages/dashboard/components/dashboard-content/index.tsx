@@ -41,6 +41,7 @@ export default (props: DashboardContentProps) => {
     const [plugin, setPlugin] = useState<WidgetDetail>();
     const [showCustom, setShowCustom] = useState(false);
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+    const [loading, setLoading] = useState(true);
     // const [isEdit, setIsEdit] = useState(false);
     const mainRef = useRef<HTMLDivElement>(null);
     const widgetsRef = useRef<any[]>([]);
@@ -61,6 +62,7 @@ export default (props: DashboardContentProps) => {
             return item;
         });
         setWidgets([...(newWidgets || [])]);
+        setLoading(false);
         widgetsRef.current = cloneDeep(newWidgets || []);
     }, [dashboardDetail.widgets, pluginsConfigs]);
 
@@ -287,7 +289,7 @@ export default (props: DashboardContentProps) => {
                     onOk={handleOk}
                 />
             )}
-            {!widgets?.length ? (
+            {!widgets?.length && !loading ? (
                 <div className="dashboard-content-empty">
                     <div className="dashboard-content-empty-title">
                         {getIntlText('dashboard.empty_text')}

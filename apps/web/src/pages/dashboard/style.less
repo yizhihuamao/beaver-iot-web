@@ -26,13 +26,13 @@
     &-fullscreen {
         padding: 5px;
         line-height: 0;
-        border: 1px solid rgba(52 145 250 / 0.5);
+        border: 1px solid var(--primary-color-5);
         border-radius: @border-radius-base;
         cursor: pointer;
-        
+
         &:hover {
-            background: rgba(52 145 250 / 0.04);
-            border: 1px solid var(--primary-color-6);
+            background: var(--primary-color-1);
+            border: 1px solid var(--primary-color-7);
         }
 
         &-icon {
@@ -46,6 +46,7 @@
         height: 100%;
         padding: 24px 20px 0 0;
         line-height: 1;
+        background: var(--component-background);
         border-bottom: 1px solid var(--border-color-base);
         cursor: pointer;
 
@@ -150,6 +151,10 @@
                     &:hover {
                         background: var(--gray-color-3);
                     }
+                }
+
+                &-dark &-img {
+                    color: var(--white);
                 }
             }
 
