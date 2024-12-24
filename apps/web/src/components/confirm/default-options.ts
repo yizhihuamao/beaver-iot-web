@@ -41,4 +41,4 @@ export const defaultGlobalOptions: GlobalOptions = {
 export const handleOverrideOptions = (
     globalOptions?: GlobalOptions,
     confirmOptions?: ConfirmOptions,
-): FinalOptions => merge(defaultGlobalOptions, globalOptions, confirmOptions);
+): FinalOptions => merge({}, defaultGlobalOptions, globalOptions, confirmOptions);

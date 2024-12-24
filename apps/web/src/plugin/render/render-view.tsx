@@ -61,12 +61,14 @@ const View = (props: Props) => {
                         <IconTag
                             className={`${tagProps.class || ''} ${theme?.class || ''}`}
                             sx={{ ...iconStyle, ...dependStyle }}
+                            key={`${JSON.stringify(tagProps)}${tabKey}`}
                         />
                     )
                 );
             }
             return (
                 <Tag
+                    key={`${JSON.stringify(tagProps)}${tabKey}`}
                     className={`${tagProps.class || ''} ${theme?.class || ''}`}
                     style={style ? parseStyleToReactStyle(style) : undefined}
                     {...(tagProps.props || {})}

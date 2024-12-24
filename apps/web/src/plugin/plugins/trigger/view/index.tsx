@@ -25,17 +25,15 @@ const View = (props: Props) => {
     const ref = useRef<any>();
 
     // 调用服务
-    const handleCallService = async () => {
-        const entityKey = (config?.entity as any).rawData?.entityKey;
+    const handleCallService = async (data: Record<string, any>) => {
         const { error } = await callService({
-            exchange: {
-                [entityKey]: (config?.entity as any)?.value as ApiKey,
-            },
+            entity_id: (config?.entity as any)?.value as ApiKey,
+            exchange: data,
         } as CallServiceType);
         if (!error) {
             toast.success({
                 key: 'callService',
-                // container: mainRef.current,
+                container: mainRef.current,
                 content: getIntlText('common.message.operation_success'),
             });
         }
@@ -50,7 +48,7 @@ const View = (props: Props) => {
             setVisible(false);
             toast.success({
                 key: 'updateProperty',
-                // container: mainRef.current,
+                container: mainRef.current,
                 content: getIntlText('common.message.operation_success'),
             });
         }
@@ -65,7 +63,7 @@ const View = (props: Props) => {
         });
         const entityType = config?.entity?.rawData?.entityType;
         if (!error) {
-            if (res?.length && entityType === 'PROPERTY') {
+            if (res?.length) {
                 setEntities(
                     res.map((item: EntityData) => {
                         return {
@@ -78,23 +76,26 @@ const View = (props: Props) => {
                     }),
                 );
                 setVisible(true);
-            } else if (entityType === 'SERVICE') {
+            } else {
                 confirm({
                     title: '',
                     description: getIntlText('dashboard.plugin.trigger_confirm_text'),
                     confirmButtonText: getIntlText('common.button.confirm'),
                     onConfirm: async () => {
-                        handleCallService();
+                        const entityKey = (config?.entity as any).rawData?.entityKey;
+                        if (entityType === 'SERVICE') {
+                            handleCallService({
+                                [entityKey]: null,
+                            });
+                        } else if (entityType === 'PROPERTY') {
+                            handleUpdateProperty({
+                                [entityKey]: null,
+                            });
+                        }
                     },
                     dialogProps: {
                         container: mainRef.current,
                     },
-                });
-            } else {
-                toast.error({
-                    key: 'handleError',
-                    // container: mainRef.current,
-                    content: getIntlText('common.message.no_results_found'),
                 });
             }
         }
@@ -106,7 +107,12 @@ const View = (props: Props) => {
 
     const handleSubmit = (data: Record<string, any>) => {
         const newData: any = flattenObject(data);
-        handleUpdateProperty(newData);
+        const entityType = config?.entity?.rawData?.entityType;
+        if (entityType === 'PROPERTY') {
+            handleUpdateProperty(newData);
+        } else if (entityType === 'SERVICE') {
+            handleCallService(newData);
+        }
     };
 
     if (configJson.isPreview) {

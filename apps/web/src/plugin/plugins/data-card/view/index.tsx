@@ -7,11 +7,13 @@ import './style.less';
 
 interface Props {
     config: ViewConfigProps;
+    configJson: CustomComponentProps;
 }
 const View = (props: Props) => {
-    const { config } = props;
+    const { config, configJson } = props;
     const { title, entity } = config || {};
     const { entityStatusValue } = useSource({ entity });
+    const { isPreview } = configJson || {};
 
     // 当前实体实时数据
     const currentEntityData = useMemo(() => {
@@ -56,7 +58,7 @@ const View = (props: Props) => {
     }, [config, currentEntityData]);
 
     return (
-        <div className="data-view">
+        <div className={`data-view ${isPreview ? 'data-view-preview' : ''}`}>
             {Icon && (
                 <div className="data-view__icon">
                     <Icon sx={{ color: iconColor, fontSize: 32 }} />

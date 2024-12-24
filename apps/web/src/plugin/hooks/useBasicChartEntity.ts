@@ -154,6 +154,37 @@ export function useBasicChartEntity(props: UseBasicChartEntityProps) {
         return ws.subscribe(topics, requestChartData);
     }, [topics, requestChartData, isPreview]);
 
+    // 计算间隔时间
+    const timeUnit: any = useMemo(() => {
+        // 小于一天按照小时刻度显示
+        if (time <= 1440 * 60 * 1000) return 'hour';
+        // 大于一个月按照周刻度显示
+        if (time > 1440 * 60 * 1000 * 30) return 'week';
+        return 'day';
+    }, [time, chartShowData]);
+
+    const format = useMemo(() => {
+        if (timeUnit !== 'hour') {
+            return 'yyyy-MM-dd';
+        }
+        return 'MM-dd HH:mm';
+    }, [timeUnit]);
+
+    const displayFormats = useMemo(() => {
+        return {
+            minute: 'HH:mm',
+            hour: 'HH:mm',
+            day: format,
+            week: format,
+        };
+    }, [format]);
+
+    // x轴刻度范围
+    const xAxisRange = useMemo(() => {
+        // 当前时间作为最后的刻度，往前推time时间作为开始刻度
+        return [Date.now() - time, Date.now()];
+    }, [time]);
+
     return {
         /**
          * canvas ref
@@ -167,5 +198,21 @@ export function useBasicChartEntity(props: UseBasicChartEntityProps) {
          * 图表所需展示的数据
          */
         chartShowData,
+        /**
+         * 时间单位
+         */
+        timeUnit,
+        /**
+         * 时间格式
+         */
+        format,
+        /**
+         * 显示在时间轴的格式设置
+         */
+        displayFormats,
+        /**
+         * x轴刻度范围
+         */
+        xAxisRange,
     };
 }

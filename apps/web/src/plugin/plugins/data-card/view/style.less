@@ -6,11 +6,20 @@
     height: 100%;
     padding: @padding-lg;
     overflow: hidden;
+    background: var(--main-background);
+
+    &-preview {
+        flex: none;
+        width: 312px;
+        min-width: auto;
+        height: 96px;
+    }
 
     &__icon {
         padding: @padding-sm;
         margin-right: @margin-md;
         background-color: var(--gray-color-1);
+        border-radius: @border-radius-base;
 
         svg {
             display: block;
@@ -18,11 +27,13 @@
         }
     }
 
-    &-text {
+    &__text {
         flex: 1;
+        overflow: hidden;
     }
 
     &__title {
+        margin-bottom: @margin-xxs;
         font-size: @font-size-lg;
         font-weight: @font-weight-bold;
         line-height: 1;

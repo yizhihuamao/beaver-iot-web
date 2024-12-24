@@ -149,7 +149,9 @@ const View = (props: ViewProps) => {
     }, [isSwitchOn, onIcon, offIcon, iconColor]);
 
     return (
-        <div className={styles['switch-wrapper']}>
+        <div
+            className={`${styles['switch-wrapper']} ${isPreview ? styles['switch-wrapper-preview'] : ''}`}
+        >
             <div className={styles.icon}>{IconComponent}</div>
             <div className={styles.content}>
                 <Tooltip className={styles.text} autoEllipsis title={title} />

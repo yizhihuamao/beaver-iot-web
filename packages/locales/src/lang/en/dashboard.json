@@ -22,5 +22,10 @@
     "dashboard.plugin_class_operate": "Operable Widgets",
     "dashboard.plugin_class_other": "Other",
     "dashboard.switch_title_off": "Off",
-    "dashboard.switch_title_on": "On"
+    "dashboard.switch_title_on": "On",
+    "dashboard.label_nearly_one_week": "Nearly one week",
+    "dashboard.label_nearly_one_month": "Nearly one month",
+    "dashboard.label_nearly_three_month": "Nearly three months",
+    "dashboard.label_nearly_half_year": "Nearly half week",
+    "dashboard.label_nearly_one_year": "Nearly one year"
 }

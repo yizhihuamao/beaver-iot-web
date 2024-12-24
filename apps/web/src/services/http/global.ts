@@ -46,6 +46,14 @@ export interface GlobalAPISchema extends APISchema {
         response: GlobalAPISchema['oauthLogin']['response'];
     };
 
+    /** 获取用户注册状态 */
+    getUserStatus: {
+        request: void;
+        response: {
+            init: boolean;
+        };
+    };
+
     /** 获取用户信息 */
     getUserInfo: {
         request: void;
@@ -70,6 +78,7 @@ export default attachAPI<GlobalAPISchema>(client, {
             },
         },
         oauthRegister: `POST ${API_PREFIX}/user/register`,
+        getUserStatus: `GET ${API_PREFIX}/user/status`,
         getUserInfo: `GET ${API_PREFIX}/user`,
     },
 });

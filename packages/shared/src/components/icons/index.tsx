@@ -69,6 +69,7 @@ export {
     AccountCircle as AccountCircleIcon,
     Share as ShareIcon,
     Https as HttpsIcon,
+    AdsClick as AdsClickIcon,
 } from '@mui/icons-material';
 
 export * from './iot-icons';

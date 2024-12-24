@@ -27,6 +27,26 @@ const ChartTimeSelect = (selectProps: SelectProps) => {
                 label: getIntlText('dashboard.label_nearly_one_days'),
                 value: 1440 * 60 * 1000,
             },
+            {
+                label: getIntlText('dashboard.label_nearly_one_week'),
+                value: 1440 * 60 * 1000 * 7,
+            },
+            {
+                label: getIntlText('dashboard.label_nearly_one_month'),
+                value: 1440 * 60 * 1000 * 30,
+            },
+            {
+                label: getIntlText('dashboard.label_nearly_three_month'),
+                value: 1440 * 60 * 1000 * 90,
+            },
+            {
+                label: getIntlText('dashboard.label_nearly_half_year'),
+                value: 1440 * 60 * 1000 * 180,
+            },
+            {
+                label: getIntlText('dashboard.label_nearly_one_year'),
+                value: 1440 * 60 * 1000 * 365,
+            },
         ];
     }, [getIntlText]);
 

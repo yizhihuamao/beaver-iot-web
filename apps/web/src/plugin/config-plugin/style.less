@@ -1,5 +1,7 @@
 .config-plugin-container {
     display: flex;
+    width: 100%;
+    background: var(--main-background);
 
     &-left {
         display: flex;
@@ -8,18 +10,36 @@
         align-items: center;
         justify-content: center;
         padding: @padding-xl;
+        overflow: auto;
         background-color: var(--gray-color-2);
         border: @border-base;
 
         &-view {
             display: flex;
-            background: var(--main-background);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
         }
     }
 
     &-right {
         width: 400px;
-        padding: 0 @padding-xl @padding-xl;
+        padding: @padding-sm @padding-lg 56px;
+        overflow-y: auto;
+        border-top: 1px solid var(--border-color-base);
+    }
+
+    &-footer {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: calc(400px - 36px);
+        height: 72px;
+        padding: 0 !important;
+        margin-right: 36px;
+        background: var(--main-background);
     }
 
     .@{prefix}-tabs {

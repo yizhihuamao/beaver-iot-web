@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, Suspense } from 'react';
-import { Tabs, Tab } from '@mui/material';
-import { Modal, JsonView } from '@milesight/shared/src/components';
+import { Tabs, Tab, DialogActions, Button } from '@mui/material';
+import { Modal, JsonView, LoadingButton } from '@milesight/shared/src/components';
 import { useI18n } from '@milesight/shared/src/hooks';
 import { TabPanel } from '@/components';
 import { RenderConfig, RenderView } from '../render';
@@ -66,6 +66,15 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
             onOk={handleOk}
             title={title || getIntlText('common.plugin_add_title', { 1: config.type })}
             width="1200px"
+            sx={{
+                '& .MuiDialogContent-root': {
+                    padding: '0px',
+                    overflow: 'hidden',
+                    display: 'flex',
+                },
+            }}
+            footer={null}
+            showCloseIcon
             visible
         >
             <div className="config-plugin-container">
@@ -77,6 +86,7 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
                                     <ComponentView
                                         config={formValues}
                                         configJson={{ ...config, isPreview: true }}
+                                        onChange={handleChange}
                                     />
                                 </Suspense>
                             ) : (
@@ -146,6 +156,22 @@ const ConfigPlugin = (props: ConfigPluginProps) => {
                             />
                         )}
                     </div>
+                    <DialogActions className="config-plugin-container-footer">
+                        <Button
+                            variant="outlined"
+                            onClick={handleClose}
+                            sx={{ mr: 1, '&:last-child': { mr: 0 } }}
+                        >
+                            {getIntlText('common.button.cancel')}
+                        </Button>
+                        <LoadingButton
+                            variant="contained"
+                            className="ms-modal-button"
+                            onClick={handleOk}
+                        >
+                            {getIntlText('common.button.confirm')}
+                        </LoadingButton>
+                    </DialogActions>
                 </div>
             </div>
         </Modal>

@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Tabs, Tab, Toolbar } from '@mui/material';
+import Chart from 'chart.js/auto'; // 引入 Chart.js
+import { registerables } from 'chart.js';
+import 'chartjs-adapter-date-fns'; // 引入日期适配器
+import zoomPlugin from 'chartjs-plugin-zoom';
 import { AddIcon, toast } from '@milesight/shared/src/components';
 import { useI18n, usePreventLeave } from '@milesight/shared/src/hooks';
 import { dashboardAPI, awaitWrap, isRequestSuccess, getResponseData } from '@/services/http';
@@ -8,6 +12,8 @@ import { TabPanel, useConfirm } from '@/components';
 import DashboardContent from './components/dashboard-content';
 import AddDashboard from './components/add-dashboard';
 import './style.less';
+
+Chart.register(...registerables, zoomPlugin); // 注册所有组件和适配器
 
 export default () => {
     const { getIntlText } = useI18n();
@@ -98,9 +104,6 @@ export default () => {
                                 display: 'none', // 完全隐藏禁用的滚动按钮
                             },
                         }}
-                        slotProps={{
-                            endScrollButtonIcon: () => '111',
-                        }}
                     >
                         {tabs?.map(tabItem => {
                             return (
@@ -114,7 +117,9 @@ export default () => {
                             );
                         })}
                     </Tabs>
-                    <AddIcon className="dashboard-add" onClick={showAddDashboard} />
+                    <div className="dashboard-add" onClick={showAddDashboard}>
+                        <AddIcon className="dashboard-add-icon" />
+                    </div>
                 </Toolbar>
                 <div className="ms-tab-content">
                     {tabs?.map(tabItem => {

@@ -7,10 +7,12 @@ import {
     DialogContent,
     DialogActions,
     Button,
+    IconButton,
     type DialogProps,
 } from '@mui/material';
 import useI18n from '../../hooks/useI18n';
 import LoadingButton from '../loading-button';
+import { CloseIcon } from '../icons';
 import './style.less';
 
 export interface ModalProps {
@@ -52,7 +54,10 @@ export interface ModalProps {
      * 弹框内容
      */
     children?: React.ReactNode;
-
+    /**
+     * 外部传入的样式
+     */
+    sx?: DialogProps['sx'];
     /**
      * 确认按钮回调
      */
@@ -67,6 +72,15 @@ export interface ModalProps {
      * 挂载节点
      */
     container?: HTMLDivElement;
+
+    /**
+     * 自定义页脚
+     */
+    footer?: React.ReactNode;
+    /**
+     * 是否显示右上角关闭图标，默认false
+     */
+    showCloseIcon?: boolean;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -77,11 +91,14 @@ const Modal: React.FC<ModalProps> = ({
     onOkText,
     onCancelText,
     className,
-    disabledBackdropClose = true,
+    sx,
     onOk,
     onCancel,
     container,
+    footer,
     children,
+    disabledBackdropClose = true,
+    showCloseIcon = false,
 }) => {
     const { getIntlText } = useI18n();
     const [loading, setLoading] = useState<boolean>();
@@ -120,6 +137,10 @@ const Modal: React.FC<ModalProps> = ({
         setLoading(false);
     });
 
+    const handleCloseIcon = () => {
+        onCancel();
+    };
+
     return (
         <Dialog
             aria-labelledby="customized-dialog-title"
@@ -127,32 +148,50 @@ const Modal: React.FC<ModalProps> = ({
             open={!!visible}
             onClose={handleClose}
             container={container}
-            sx={{ '& .MuiDialog-paper': { width: ModalWidth, maxWidth: 'none' } }}
+            sx={{ '& .MuiDialog-paper': { width: ModalWidth, maxWidth: 'none' }, ...(sx || {}) }}
         >
             {!!title && (
                 <DialogTitle sx={{ m: 0, paddingX: 3, paddingY: 2 }} id="customized-dialog-title">
                     {title}
                 </DialogTitle>
             )}
+            {showCloseIcon && (
+                <IconButton
+                    aria-label="close"
+                    onClick={handleCloseIcon as any}
+                    sx={theme => ({
+                        position: 'absolute',
+                        right: 8,
+                        top: 8,
+                        color: theme.palette.grey[500],
+                    })}
+                >
+                    <CloseIcon />
+                </IconButton>
+            )}
             <DialogContent>{children}</DialogContent>
-            <DialogActions className="ms-modal-footer">
-                <Button
-                    variant="outlined"
-                    disabled={loading}
-                    onClick={onCancel}
-                    sx={{ mr: 1, '&:last-child': { mr: 0 } }}
-                >
-                    {onCancelText || getIntlText('common.button.cancel')}
-                </Button>
-                <LoadingButton
-                    variant="contained"
-                    className="ms-modal-button"
-                    loading={loading}
-                    onClick={handleOk}
-                >
-                    {onOkText || getIntlText('common.button.confirm')}
-                </LoadingButton>
-            </DialogActions>
+            {footer === undefined ? (
+                <DialogActions className="ms-modal-footer">
+                    <Button
+                        variant="outlined"
+                        disabled={loading}
+                        onClick={onCancel}
+                        sx={{ mr: 1, '&:last-child': { mr: 0 } }}
+                    >
+                        {onCancelText || getIntlText('common.button.cancel')}
+                    </Button>
+                    <LoadingButton
+                        variant="contained"
+                        className="ms-modal-button"
+                        loading={loading}
+                        onClick={handleOk}
+                    >
+                        {onOkText || getIntlText('common.button.confirm')}
+                    </LoadingButton>
+                </DialogActions>
+            ) : (
+                footer
+            )}
         </Dialog>
     );
 };

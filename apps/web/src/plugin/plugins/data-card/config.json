@@ -39,7 +39,7 @@
                     "componentProps": {
                         "size": "small",
                         "inputProps": {
-                            "maxLength": 15
+                            "maxLength": 30
                         }
                     }
                 }

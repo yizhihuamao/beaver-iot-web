@@ -3,9 +3,13 @@
     flex-direction: column;
     padding: 0;
 
+    .@{prefix}-tabs {
+        flex: 1;
+    }
+
     .@{prefix}-tab-content {
         flex: 1;
-        padding: @padding-lg;
+        padding: @padding-lg 0;
         overflow: hidden;
         background: var(--gray-color-2);
     }
@@ -20,8 +24,8 @@
     position: relative;
 
     &-fullscreen {
-        padding: 6px @padding-md;
-        line-height: 1;
+        padding: 5px;
+        line-height: 0;
         border: 1px solid rgba(52 145 250 / 0.5);
         border-radius: @border-radius-base;
         cursor: pointer;
@@ -32,21 +36,32 @@
         }
 
         &-icon {
+            font-size: 24px !important;
             line-height: 0;
             color: var(--primary-color-6);
         }
     }
 
     &-add {
-        margin: @margin-sm 0 0 @margin-sm;
-        font-size: @font-size-xxl !important;
+        height: 100%;
+        padding: 24px 20px 0 0;
+        line-height: 1;
+        border-bottom: 1px solid var(--border-color-base);
         cursor: pointer;
+
+        &:hover &-icon {
+            color: var(--primary-color-6);
+        }
+
+        &-icon {
+            font-size: @font-size-xxl;
+        }
     }
 
     &-toolbar {
+        display: flex;
         min-height: 0 !important;
         padding: 0 !important;
-        padding-right: 20px !important;
         background: #fff;
     }
 
@@ -77,6 +92,7 @@
 
         &-operate {
             display: flex;
+            padding: 0 @padding-lg;
             margin-bottom: @margin-md;
 
             &-left {
@@ -106,7 +122,6 @@
             height: 100%;
             overflow: hidden;
             background: var(--main-background);
-            border: 1px solid transparent;
             border-radius: @border-radius-base;
 
             &-main {
@@ -136,10 +151,6 @@
                         background: var(--gray-color-3);
                     }
                 }
-            }
-
-            &:hover {
-                border: 1px solid var(--primary-color-6);
             }
 
             &:hover &-icon-edit {

@@ -98,14 +98,14 @@ const Widgets = (props: WidgetProps) => {
             {widgets.map((data: WidgetDetail) => {
                 const id = (data.widget_id || data.tempId) as ApiKey;
                 const pos = {
-                    w: data.data.minCol,
-                    h: data.data.minRow,
-                    minW: data.data.minRow || 3,
-                    minH: data.data.minCol || 2,
+                    ...data.data.pos,
+                    w: data.data?.pos?.w || data.data.minCol,
+                    h: data.data?.pos?.h || data.data.minRow,
+                    minW: data.data.minCol || 3,
+                    minH: data.data.minRow || 2,
                     i: data?.widget_id || data.data.tempId,
                     x: data.data.pos.x || 0,
                     y: data.data.pos.y || 0,
-                    ...data.data.pos,
                 };
                 return (
                     <div

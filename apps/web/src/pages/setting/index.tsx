@@ -5,7 +5,7 @@ import { Breadcrumbs, TabPanel } from '@/components';
 import { Integration } from './components';
 import './style.less';
 
-function App() {
+function Setting() {
     const { getIntlText } = useI18n();
     const [tab, setTab] = useState<ApiKey>('1');
 
@@ -35,4 +35,4 @@ function App() {
     );
 }
 
-export default App;
+export default Setting;

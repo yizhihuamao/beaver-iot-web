@@ -104,6 +104,11 @@ export default (props: WidgetProps) => {
 
     const handleOk = (data: any) => {
         const now = String(new Date().getTime());
+        // 计算最大y轴位置，并将新的组件放到该位置
+        const y = Math.max(
+            ...widgets.map(item => (item?.data?.pos.y || 0) + (item?.data?.pos?.h || 0)),
+            0,
+        );
         const widgetData = {
             widget_id: config?.widget_id,
             tempId: config.tempId || now,
@@ -117,6 +122,7 @@ export default (props: WidgetProps) => {
                     minH: config.data.minRow,
                     // maxW: config.data.maxCol,
                     // maxH: config.data.maxRow,
+                    y,
                     ...config.data.pos,
                     i: plugin?.widget_id || config.tempId || now,
                 },

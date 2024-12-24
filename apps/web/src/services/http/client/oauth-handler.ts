@@ -24,8 +24,10 @@ type TokenDataType = {
     expires_in: number;
 };
 
-/** 最后一次刷新 token 的时间 */
-let lastTokenRefreshTime = 0;
+let timer: number | null = null;
+/** Token 延迟刷新时间 */
+const REFRESH_TOKEN_TIMEOUT = 1 * 1000;
+/** Token 刷新 API 路径 */
 const tokenApiPath = `${API_PREFIX}/oauth2/token`;
 /**
  * 生成 Authorization 请求头数据
@@ -56,49 +58,46 @@ const oauthHandler = async (config: AxiosRequestConfig) => {
      * 1. 若为 oauth 请求，不做刷新 token 处理
      * 2. 若本地无缓存 token，不做刷新 token 处理
      * 3. 若本地缓存 token 未过期，不做刷新 token 处理
-     * 4. 若 10 秒内有多个并行 token 刷请求，则只发起 1 次，避免多次重复刷新 token
      */
-    if (
-        isOauthRequest ||
-        !token?.access_token ||
-        !isExpired ||
-        Date.now() - lastTokenRefreshTime < 10 * 1000
-    ) {
+    if (isOauthRequest || !token?.access_token || !isExpired) {
         return config;
     }
 
-    const requestConfig = {
-        baseURL: apiOrigin,
-        headers: {
-            Authorization: genAuthorization(token?.access_token),
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        withCredentials: true,
-    };
-    const requestData = {
-        refresh_token: token.refresh_token,
-        grant_type: 'refresh_token',
-        client_id: oauthClientID,
-        client_secret: oauthClientSecret,
-    };
+    /**
+     * 延迟 1s 后发起 token 更新请求，保证在此 1s 内，使用旧 token 的请求依然可通过后端鉴权
+     */
+    if (timer) window.clearTimeout(timer);
+    timer = window.setTimeout(() => {
+        const requestConfig = {
+            baseURL: apiOrigin,
+            headers: {
+                Authorization: genAuthorization(token?.access_token),
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            withCredentials: true,
+        };
+        const requestData = {
+            refresh_token: token.refresh_token,
+            grant_type: 'refresh_token',
+            client_id: oauthClientID,
+            client_secret: oauthClientSecret,
+        };
 
-    lastTokenRefreshTime = Date.now();
+        axios
+            .post<ApiResponse<TokenDataType>>(tokenApiPath, requestData, requestConfig)
+            .then(resp => {
+                const data = getResponseData(resp)!;
 
-    // 异步调用，不阻塞其他接口
-    axios
-        .post<ApiResponse<TokenDataType>>(tokenApiPath, requestData, requestConfig)
-        .then(resp => {
-            const data = getResponseData(resp)!;
-
-            // 每 60 分钟刷新一次 token
-            data.expires_in = Date.now() + 60 * 60 * 1000;
-            iotStorage.setItem(TOKEN_CACHE_KEY, data);
-            eventEmitter.publish(REFRESH_TOKEN_TOPIC);
-        })
-        .catch(_ => {
-            // TODO: 若为 token 无效错误，则直接移除 token
-            // iotStorage.removeItem(TOKEN_CACHE_KEY);
-        });
+                // 每 60 分钟刷新一次 token
+                data.expires_in = Date.now() + 60 * 60 * 1000;
+                iotStorage.setItem(TOKEN_CACHE_KEY, data);
+                eventEmitter.publish(REFRESH_TOKEN_TOPIC);
+            })
+            .catch(_ => {
+                // TODO: 若为 token 无效错误，则直接移除 token
+                // iotStorage.removeItem(TOKEN_CACHE_KEY);
+            });
+    }, REFRESH_TOKEN_TIMEOUT);
 
     return config;
 };

@@ -19,12 +19,12 @@
     "setting.integration.param_client_id": "客户端ID",
     "setting.integration.param_client_secret": "客户端密钥",
     "setting.integration.param_server_address": "服务器地址",
+    "setting.integration.service_operation_confirm": "确认操作{1}?",
     "setting.integration.webhook_helper_text": "通过Webhook服务实时接收Milesight开发平台推送的数据，并将生成的URL地址粘贴到Milesight开发平台的应用程序中。",
     "setting.integration.webhook_secret_key": "密钥",
     "setting.integration.webhook_status": "Webhook状态",
     "setting.integration.webhook_status_error": "Webhook错误",
     "setting.integration.webhook_status_ready": "Webhook就绪",
     "setting.integration.webhook_status_waiting": "等待配置",
-    "setting.integration.webhook_url": "Webhook URL",
-    "setting.integration.service_operation_confirm": "确认操作 {1} ?"
+    "setting.integration.webhook_url": "Webhook URL"
 }

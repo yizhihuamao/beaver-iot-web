@@ -20,11 +20,12 @@ const View = (props: ViewProps) => {
     const { config, configJson } = props;
     const { entity, title, time } = config || {};
     const { isPreview } = configJson || {};
-    const { chartShowData, chartLabels, chartRef } = useBasicChartEntity({
-        entity,
-        time,
-        isPreview,
-    });
+    const { chartShowData, chartLabels, chartRef, timeUnit, format, displayFormats, xAxisRange } =
+        useBasicChartEntity({
+            entity,
+            time,
+            isPreview,
+        });
 
     useEffect(() => {
         try {
@@ -40,7 +41,7 @@ const View = (props: ViewProps) => {
                             data: chart.entityValues,
                             borderWidth: 1,
                             spanGaps: true,
-                            backgroundColor: resultColor[index],
+                            color: resultColor[index],
                         })),
                     },
                     options: {
@@ -50,7 +51,41 @@ const View = (props: ViewProps) => {
                             y: {
                                 beginAtZero: true,
                             },
+                            x: {
+                                type: 'time',
+                                time: {
+                                    unit: timeUnit,
+                                    tooltipFormat: format,
+                                    displayFormats,
+                                },
+                                min: xAxisRange[0], // 时间范围的最小值
+                                max: xAxisRange[1], // 时间范围的最大值
+                                ticks: {
+                                    autoSkip: true, // 自动跳过刻度
+                                    maxTicksLimit: 8,
+                                    major: {
+                                        enabled: true, // 启用主要刻度
+                                    },
+                                },
+                            },
                         },
+                        plugins: {
+                            zoom: {
+                                pan: {
+                                    enabled: true,
+                                    mode: 'x', // 仅在 x 轴上平移
+                                },
+                                zoom: {
+                                    wheel: {
+                                        enabled: true, // 启用滚轮缩放
+                                    },
+                                    pinch: {
+                                        enabled: true, // 启用触摸缩放
+                                    },
+                                    mode: 'x', // 仅在 x 轴上缩放
+                                },
+                            },
+                        } as any,
                     },
                 });
             }

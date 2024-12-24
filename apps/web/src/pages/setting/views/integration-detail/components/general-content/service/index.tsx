@@ -41,7 +41,7 @@ const Service: React.FC<Props> = ({ loading, entities, excludeKeys, onUpdateSucc
         });
         const result: InteServiceType[] = cloneDeep(services || []);
 
-        // TODO: 多层级服务参数处理
+        // TODO: 多层级(>2)服务参数处理
         result?.forEach(item => {
             if (!item.parent) return;
 
@@ -83,6 +83,7 @@ const Service: React.FC<Props> = ({ loading, entities, excludeKeys, onUpdateSucc
     const { control, handleSubmit, setValue } = useForm<EntityFormDataProps>();
     const { formItems, decodeFormParams, encodeFormData } = useEntityFormItems({
         entities: targetService?.children,
+        isAllRequired: true,
     });
     const onSubmit: SubmitHandler<EntityFormDataProps> = async params => {
         if (!targetService) return;

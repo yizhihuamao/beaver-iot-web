@@ -16,7 +16,7 @@ import { genInteIconUrl } from '../../helper';
 import { GeneralContent, MscContent } from './components';
 import './style.less';
 
-const InformationDetail = () => {
+const IntegrationDetail = () => {
     const { integrationId } = useParams();
 
     // ---------- 集成详情数据逻辑 ----------
@@ -125,4 +125,4 @@ const InformationDetail = () => {
     );
 };
 
-export default InformationDetail;
+export default IntegrationDetail;

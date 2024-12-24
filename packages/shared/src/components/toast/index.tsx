@@ -43,9 +43,16 @@ class ToastManager {
     }
 
     private renderToasts(container?: HTMLDivElement) {
+        let toastContainer: HTMLDivElement;
         if (container) {
-            // this.root?.unmount();
-            this.root = createRoot(container);
+            this.root?.unmount();
+            toastContainer = document.createElement('div');
+            container.appendChild(toastContainer);
+            this.root = createRoot(toastContainer);
+        } else {
+            this.root?.unmount();
+            this.root = createRoot(this.container);
+            document.body.appendChild(this.container);
         }
         this.root?.render(
             <>
@@ -63,6 +70,11 @@ class ToastManager {
                         onClose={e => {
                             this.removeToast(toast.key);
                             toast.onClose?.(e);
+                            if (container && toastContainer) {
+                                container.removeChild(toastContainer);
+                            } else {
+                                document.body.removeChild(this.container);
+                            }
                         }}
                     >
                         <div className={`ms-toast ${toast.severity}`}>

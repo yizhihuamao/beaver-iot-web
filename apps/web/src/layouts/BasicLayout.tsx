@@ -29,6 +29,7 @@ function BasicLayout() {
     // ---------- 用户信息&鉴权&跳转相关处理逻辑 ----------
     const navigate = useNavigate();
     const [loading, setLoading] = useState<null | boolean>(null);
+    const userInfo = useUserStore(state => state.userInfo);
     const setUserInfo = useUserStore(state => state.setUserInfo);
     const token = iotLocalStorage.getItem(TOKEN_CACHE_KEY);
 
@@ -43,6 +44,11 @@ function BasicLayout() {
                 navigate(target, { replace: true });
                 return;
             }
+            // store 已有用户信息，则无需再次请求
+            if (userInfo) {
+                setLoading(false);
+                return;
+            }
 
             setLoading(true);
             const [error, resp] = await awaitWrap(globalAPI.getUserInfo());
@@ -52,6 +58,7 @@ function BasicLayout() {
             setUserInfo(getResponseData(resp));
         },
         {
+            refreshDeps: [userInfo],
             debounceWait: 300,
         },
     );

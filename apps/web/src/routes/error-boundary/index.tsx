@@ -36,7 +36,7 @@ const ErrorBoundary: React.FC<Props> = ({ inline, callback }) => {
                     {error?.stack && <pre className="ms-route-error-pre">{error.stack}</pre>}
                     <Stack direction="row" spacing={2}>
                         {error?.stack && (
-                            <Button variant="outlined" onClick={() => handleCopy(error.message)}>
+                            <Button variant="outlined" onClick={() => handleCopy(error.stack)}>
                                 {getIntlText('common.label.copy_error_info')}
                             </Button>
                         )}

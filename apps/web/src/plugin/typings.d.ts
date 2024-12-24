@@ -1,7 +1,7 @@
 /**
  * 主题
  */
-declare type ThemeType = 'default';
+declare type ThemeType = 'default' | 'dark';
 
 /**
  * 主题样式设置
@@ -189,11 +189,12 @@ declare interface CustomComponentProps {
     view: ViewProps[] | string;
     /**
      * 组件分类
-     * @description 用来区分组件的类别，比如图表、数据显示等，目前有data_chart/operate/data_card三种
+     * @description 用来区分组件的类别，比如图表、数据显示等，目前有data_chart/operate/data_card三种，未填则默认为其他类型
      */
     class?: string;
     /**
      * 当前组件已配置值
+     * @description 无需配置，在配置界面会默认传
      */
     config?: Record<string, any>;
     /**
@@ -216,6 +217,16 @@ declare interface CustomComponentProps {
      * @description 每行为容器高度是1/24
      */
     defaultRow: number;
+    /**
+     * 设置组件显示最小占容器几列，最小值为1，最大为12
+     * @description 每行为容器高度是1/12
+     */
+    minCol: number;
+    /**
+     * 设置组件显示最小占容器几行，最小值为1，最大为24
+     * @description 每行为容器高度是1/24
+     */
+    maxRow: number;
 }
 
 /**
@@ -262,4 +273,9 @@ declare interface EntitySelectCommonProps<T = EntityOptionType> {
      */
     maxCount?: number;
     onChange: (value: T | null) => void;
+}
+
+declare module 'chartjs-plugin-zoom' {
+    const ChartZoom: any;
+    export default ChartZoom;
 }

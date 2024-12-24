@@ -22,5 +22,10 @@
     "dashboard.plugin_class_operate": "可操作组件",
     "dashboard.plugin_class_other": "其他",
     "dashboard.switch_title_off": "Off",
-    "dashboard.switch_title_on": "On"
+    "dashboard.switch_title_on": "On",
+    "dashboard.label_nearly_one_week": "近1周",
+    "dashboard.label_nearly_one_month": "近1个月",
+    "dashboard.label_nearly_three_month": "近三个月",
+    "dashboard.label_nearly_half_year": "近半年",
+    "dashboard.label_nearly_one_year": "近1年"
 }

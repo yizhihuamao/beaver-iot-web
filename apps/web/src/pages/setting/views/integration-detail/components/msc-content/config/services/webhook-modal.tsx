@@ -7,6 +7,7 @@ import { useI18n, useCopy } from '@milesight/shared/src/hooks';
 import { flattenObject, genApiUrl } from '@milesight/shared/src/utils/tools';
 import { checkRequired } from '@milesight/shared/src/utils/validators';
 import { Modal, ContentCopyIcon, type ModalProps } from '@milesight/shared/src/components';
+import { API_PREFIX } from '@/services/http';
 
 export enum WEBHOOK_KEYS {
     /** Webhook 状态 实体关键字 */
@@ -39,7 +40,7 @@ interface Props extends Omit<ModalProps, 'onOk'> {
 /**
  * Webhook 地址
  */
-export const WEBHOOK_URL = genApiUrl(apiOrigin, '/public/integration/msc/webhook');
+export const WEBHOOK_URL = genApiUrl(apiOrigin, `${API_PREFIX}/public/integration/msc/webhook`);
 
 /**
  * Webhook 编辑弹窗

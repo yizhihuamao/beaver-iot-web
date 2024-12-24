@@ -3,7 +3,7 @@ import { type ControllerProps } from 'react-hook-form';
 import {
     TextField,
     FormControl,
-    FormLabel,
+    // FormLabel,
     FormControlLabel,
     InputLabel,
     Select,
@@ -165,6 +165,7 @@ const useEntityFormItems = ({ entities, isAllRequired = false }: Props) => {
 
                     // 如果是枚举类型，则渲染下拉框
                     if (attr.enum) {
+                        formItem.defaultValue = '';
                         formItem.render = ({
                             field: { onChange, value, disabled },
                             fieldState: { error },
@@ -213,7 +214,7 @@ const useEntityFormItems = ({ entities, isAllRequired = false }: Props) => {
                     result.push({
                         name: encodedEntityKeys[entity.key],
                         rules: { validate },
-                        // defaultValue: false,
+                        defaultValue: false,
                         render({ field: { onChange, value, disabled }, fieldState: { error } }) {
                             return (
                                 <FormControl

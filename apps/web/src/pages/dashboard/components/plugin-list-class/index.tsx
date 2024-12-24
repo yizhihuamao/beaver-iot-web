@@ -61,7 +61,10 @@ export default (props: PluginListProps) => {
                     {pluginList
                         ? Object.keys(pluginList).map((pluginClass: string) => {
                               return (
-                                  <div className="dashboard-plugin-class-grid">
+                                  <div
+                                      className="dashboard-plugin-class-grid"
+                                      key={pluginList[pluginClass].type}
+                                  >
                                       <div className="dashboard-plugin-class-grid-title">
                                           {getIntlText(pluginList[pluginClass].name)}
                                       </div>

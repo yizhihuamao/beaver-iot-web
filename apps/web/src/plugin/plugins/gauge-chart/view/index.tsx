@@ -18,6 +18,35 @@ const View = (props: Props) => {
     const { blue, grey } = useTheme();
     const { aggregateHistoryData } = useSource({ entity, metrics, time });
 
+    // 计算最适合的最大刻度值
+    const calculateMaxTickValue = (maxValue: number) => {
+        const magnitude = 10 ** Math.floor(Math.log10(maxValue));
+        const normalizedMax = maxValue / magnitude;
+        let maxTickValue = 10;
+        if (normalizedMax <= 1) {
+            maxTickValue = 1;
+        } else if (normalizedMax <= 2) {
+            maxTickValue = 2;
+        } else if (normalizedMax <= 5) {
+            maxTickValue = 5;
+        } else {
+            maxTickValue = 10;
+        }
+
+        return maxTickValue * magnitude;
+    };
+
+    // 计算合适的间隔
+    const calculateTickInterval = (maxTickValue: number) => {
+        if (maxTickValue <= 1) {
+            return 0.1;
+        }
+        if (maxTickValue <= 2) {
+            return 0.2;
+        }
+        return 1;
+    };
+
     /** 渲染仪表图 */
     const renderGaugeChart = (datasets: {
         minValue?: number;
@@ -41,12 +70,23 @@ const View = (props: Props) => {
                 data = [0, DEFAULT_RANGE];
             }
             // const diff = maxValue - minValue;
-            const tickCount = DEFAULT_RANGE;
+            let tickCount = DEFAULT_RANGE;
             // 计算当前最大值，需要是刻度数的整数
-            const tickMaxValue = Math.floor(maxValue / tickCount) * tickCount + tickCount;
+            const tickMaxValue = calculateMaxTickValue(maxValue);
             // 计算刻度间隔
-            const tickInterval = Math.floor(maxValue / tickCount);
-
+            // const tickInterval = Math.ceil(tickMaxValue / tickCount);
+            const tickInterval = calculateTickInterval(tickMaxValue);
+            // 最大值小于10，取最大值向上取整作为最大刻度数
+            if (tickMaxValue < 10) {
+                tickCount = Math.ceil(tickMaxValue);
+            }
+            // 如果最大值小于2，则按照默认0-10刻度
+            if (tickMaxValue < 2) {
+                tickCount = 10;
+                data = [currentValue, DEFAULT_RANGE];
+            } else {
+                data = [currentValue, tickMaxValue];
+            }
             // 渲染图表
             const circumference = 216; // 定义仪表盘的周长
             const rotation = (360 - 216) / 2 + 180; // 根据周长，计算旋转的角度
